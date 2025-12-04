@@ -34,14 +34,14 @@ pipeline {
  
         stage('Docker Build') {
             steps {
-                sh 'docker build -t firstproject:latest .'
+                sh 'docker build -t firstsonarproject:latest .'
             }
         }
  
         stage('Docker Run') {
             steps {
                 sh '''
-                    docker run -d --name myapp -p 80:8080 firstproject:latest
+                    docker run -d --name mysonarqubeapp -p 81:8080 firstsonarproject:latest
                 '''
             }
         }
