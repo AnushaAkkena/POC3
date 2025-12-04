@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/AnushaAkkena/POC3.git'
+                git url: 'https://github.com/AnushaAkkena/POC3.git' , branch : 'main'
             }
         }
  
