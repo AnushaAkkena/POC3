@@ -4,7 +4,7 @@ pipeline {
         maven 'mvn'
     }
    environment {
-       SONAR_HOST_URL ='http://16.176.169.240:9000/'
+       SONAR_HOST_URL ='http://3.27.78.81:9000/'
        SONAR_AUTH_TOKEN = credentials('sonarqube')
   }
  
@@ -28,7 +28,7 @@ pipeline {
       }
      stage('SonarQube Analysis') {
            steps {
-               sh 'mvn sonaradmin:sonaradmin -Dsonar.projectKey=sample_project -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.auth.token=$SONAR_AUTH_TOKEN'
+               sh 'mvn sonar:sonar -Dsonar.projectKey=sample_project -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.auth.token=$SONAR_AUTH_TOKEN'
            }
       }
  
