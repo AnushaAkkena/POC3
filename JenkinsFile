@@ -1,47 +1,55 @@
 pipeline {
     agent any
+
     tools {
         maven 'mvn'
     }
-   environment {
-       SONAR_HOST_URL ='http://3.27.78.81:9000/'
-       SONAR_AUTH_TOKEN = credentials('sonarqube')
-  }
- 
+
+    environment {
+        SONAR_HOST_URL = 'http://13.236.116.41:9000'
+        SONAR_AUTH_TOKEN = credentials('sonarqube')
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/AnushaAkkena/POC3.git' , branch : 'main'
+                git url: 'https://github.com/techcoms/springboot-app', branch: 'feature3'
             }
         }
- 
+
         stage('Maven Build') {
             steps {
                 sh 'mvn clean package'
             }
         }
 
-      stage('Test') {
-           steps {
-               sh 'mvn test'
-           }
-      }
-     stage('SonarQube Analysis') {
-           steps {
-               sh 'mvn sonar:sonar -Dsonar.projectKey=spring-boot-demo -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.auth.token=$SONAR_AUTH_TOKEN'
-           }
-      }
- 
-        stage('Docker Build') {
+        stage('Test') {
             steps {
-                sh 'docker build -t firstsonarproject:latest .'
+                sh 'mvn test'
             }
         }
- 
+
+        stage('SonarQube Analysis') {
+            steps {
+                sh '''
+                    mvn sonar:sonar \
+                      -Dsonar.projectKey=spring-boot-demo \
+                      -Dsonar.host.url=$SONAR_HOST_URL \
+                      -Dsonar.login=$SONAR_AUTH_TOKEN
+                '''
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t firstsonarqubeproject:latest .'
+            }
+        }
+
         stage('Docker Run') {
             steps {
                 sh '''
-                    docker run -d --name mysonarqubeapp -p 81:8080 firstsonarproject:latest
+                    docker run -d --name mysonarapp -p 81:8080 firstsonarqubeproject:latest
                 '''
             }
         }
