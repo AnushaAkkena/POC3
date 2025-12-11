@@ -21,14 +21,14 @@ pipeline {
  
         stage('Docker Build') {
             steps {
-                sh 'docker build -t project:latest .'
+                sh 'docker build -t testproject:latest .'
             }
         }
  
         stage('Docker Run') {
             steps {
                 sh '''
-                    docker run -d --name app -p 82:8080 project:latest
+                    docker run -d --name testapp -p 82:8080 testproject:latest
                 '''
             }
         }
