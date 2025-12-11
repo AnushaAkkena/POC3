@@ -10,20 +10,25 @@ pipeline {
  
         stage('Maven Build') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                sh 'mvn clean package'
+            }
+        }
+          stage('Test') {
+            steps {
+                sh 'mvn test'
             }
         }
  
         stage('Docker Build') {
             steps {
-                sh 'docker build -t firstproject:latest .'
+                sh 'docker build -t project:latest .'
             }
         }
  
         stage('Docker Run') {
             steps {
                 sh '''
-                    docker run -d --name myapp -p 80:8080 firstproject:latest
+                    docker run -d --name app -p 82:8080 project:latest
                 '''
             }
         }
